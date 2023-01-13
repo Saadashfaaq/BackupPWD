@@ -57,9 +57,12 @@ class StockMutation extends React.Component {
 
   componentDidMount() {
     this.userCheck();
-    this.fetchMutation(0, '', '', this.state.value);
-    this.getWh();
-    console.log('60', this.state);
+    console.log('1');
+    // this.fetchMutation(0, '', '', this.state.value);
+    console.log('2');
+
+    // this.getWh();
+    console.log('3');
   }
 
   inputHandler = (event) => {
@@ -91,22 +94,26 @@ class StockMutation extends React.Component {
   };
 
   userCheck = () => {
-    const userUID = this.props.user?.customer_uid;
-    Axios.get(`http://localhost:3300/api/customer/profile/${this.props.user?.customer_uid}`)
-      .then((res) => {
-        console.log('95', res.data.approle);
-        this.setState({ ...this.state, isrole: res.data });
-        console.log('97', this.state.isrole?.approle.role);
+    console.log('a');
+    console.log('aa', this.props.user);
+    const userUID = this.props.user.customer_uid;
+    console.log('b', userUID);
 
-        if (res.data.approle.role === 'superadmin') {
-          this.setState({ ...this.state, myWarehouse: '' });
-        } else {
-          this.setState({ ...this.state, myWarehouse: toString(res.data.approle.warehouse_id) });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // Axios.get(`http://localhost:3300/api/customer/profile/${userUID}`)
+    //   .then((res) => {
+    //     console.log('95', res);
+    //     this.setState({ ...this.state, isrole: res.data });
+    //     console.log('97', this.state.isrole.approle);
+
+    //     if (res.data.approle.role === 'superadmin') {
+    //       this.setState({ ...this.state, myWarehouse: '' });
+    //     } else {
+    //       this.setState({ ...this.state, myWarehouse: toString(res.data.approle.warehouse_id) });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   // GET WH
