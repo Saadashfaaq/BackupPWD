@@ -1,5 +1,5 @@
 const {
-  models: { Warehouse },
+  models: { Warehouse, Stock },
 } = require("../models");
 const router = require("express").Router();
 const request = require("request");
@@ -96,6 +96,38 @@ router.post("/add-new-warehouse", upload.single('picture'), async (req, res) => 
 router.get("/warehouse-list", async (req, res) => {
   try {
     const response = await Warehouse.findAll();
+
+    console.log("ini test", response.length)
+    for(let i = 0; i<response.length; i++)
+    {
+      let picPathArray = response[i].picture.split("\\");
+      let picPath =
+        "http://localhost:3300/" + picPathArray[1] + "/" + picPathArray[2];
+      response[i].picture = picPath;
+    }
+    //  let picPathArray = response.picture.split("\\");
+    //  let picPath =
+    //    "http://localhost:3300/" + picPathArray[1] + "/" + picPathArray[2];
+    // //  response.picture = picPath;
+    // console.log(picPath)
+    // console.log(JSON.stringify(response.picture))
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// get warehouse list stock
+router.get("/warehouse-list-stock", async (req, res) => {
+  try {
+    const response = await Warehouse.findAll({
+      include: [
+        {
+          model: Stock,
+          required: true,
+        }
+      ]
+    });
 
     console.log("ini test", response.length)
     for(let i = 0; i<response.length; i++)
